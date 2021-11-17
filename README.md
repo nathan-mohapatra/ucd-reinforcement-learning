@@ -1,11 +1,29 @@
 # UCD Reinforcement Learning
+For this assignment, I used TensorFlow to train a convolutional neural network to learn to play Pong without human knowledge of the game. I used OpenAI Gym, which offered the game state as the game display (image), to run and interact with the Atari game. I also represented the game as a set of states, actions, and rewards to implement the Q-learning algorithm, and plotted loss and reward change during the training process.
+
+`instructions.pdf` is the set of instructions with which I completed the assignment.  
+`report3.pdf` is a written report of this assignment.
+
+---
+
 In previous assignments I manually created intelligent agents by codifying human intelligence regarding the environments my agent explored. However, modern approaches to artificial intelligence step away from methods requiring domain experts. This allows models to not only learn better policies, but also to learn policies for domains in which encoding human intelligence is near impossible.
 
-For this assignment, I used TensorFlow to train a convolutional neural network to learn to play Pong without human knowledge of the game. I used OpenAI Gym, which offered the game state as the game display (image), to run and interact with the Atari game. I also represented the game as a set of states, actions, and rewards to implement the Q-learning algorithm, and plotted loss and reward change during the training process.
+One such domain is Pong, a tennis-themed arcade game that features simple two-dimensional graphics; each player operates a paddle and rallies the ball with the goal of making the opponent miss
 
 This may work locally with high-end GPU resources. Otherwise, you can use the Google Cloud platform and launch a Deep Learning VM:
 
 > Google Cloud Platform, offered by Google, is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products, such as Google Search, Gmail, file storage, and YouTube: https://cloud.google.com/
+
+If you are using Google Cloud Platform, here are some suggestions:
+- When launching the Deep Learning VM, you can choose between TensorFlow and PyTorch frameworks. TensorFlow is preferred, because ApenAI Gym is installed by default.
+- After launching the TensorFlow virtual machine, open its command line and do the following installation:  
+```
+sudo apt install cmake libz-dev
+sudo pip install torch torchvision
+sudo pip install gym[atari]
+sudo apt-get install python-opengl
+```
+- Run your commands utilizing either `nohup` or `screen`. These will enable you to exit the terminal with your script still running.
 
 ## Part 1: Problem Representation
 For the Q learner, we must represent the game as a set of states, actions, and rewards. OpenAI Gym offers two versions of game environments: one which offers the state as the game display (image) and one which offers the state as the hardware RAM (array). I explained why the former is easier for the agent to learn from.
@@ -19,7 +37,7 @@ I described how an action is chosen:
 `if random.random() > epsilon:`  
 &nbsp;&nbsp;&nbsp;&nbsp;`. . .`  
 `else:`  
-&nbsp;&nbsp;&nbsp;&nbsp;`action = random.randrange(self.env.action_space.n`
+&nbsp;&nbsp;&nbsp;&nbsp;`action = random.randrange(self.env.action_space.n)`
 
 Given a state, I wrote code to compute the Q value and choose an action to perform (see lines 50-55 in function `act` of **dqn.py**).
 
