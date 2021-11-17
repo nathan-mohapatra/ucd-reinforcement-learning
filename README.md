@@ -8,8 +8,13 @@ For this assignment, I used TensorFlow to train a convolutional neural network t
 
 In previous assignments I manually created intelligent agents by codifying human intelligence regarding the environments my agent explored. However, modern approaches to artificial intelligence step away from methods requiring domain experts. This allows models to not only learn better policies, but also to learn policies for domains in which encoding human intelligence is near impossible.
 
-One such domain is Pong, a tennis-themed arcade game that features simple two-dimensional graphics; each player operates a paddle and rallies the ball with the goal of making the opponent miss
+One such domain is Pong, a tennis-themed arcade game, featuring simple two-dimensional graphics, in which each player operates a paddle and rallies the ball with the goal of making the opponent miss and earning a point. The game can be characterized as an environment for a reinforcement learning problem, with states, actions, and rewards: The state is the position of the paddles and the ball, the action is the direction and speed of paddle movement, and the reward is +1 or -1 depending on if the agent scores or is scored against, respectively (and 0 if neither occurs). Ultimately, through trial and error, an agent will learn a policy, or behavior function, that evaluates a given state and selects the action that maximizes its reward.
 
+The model will use a deep Q-network, an algorithm enhancing classical Q-learning with deep learning and a technique called experience replay, to decide which action to take when playing Pong. A convolutional neural network will push each action made to a replay buffer; this replay buffer will be polled from to make updates to the deep Q-network using a loss function (squared error).
+
+The deep Q-network is contained within `dqn.py`, and it is trained using `run_dqn_pong.py`. A single game can be played with the deep Q-network using `test_dqn_pong.py`. The environment will keep playing Pong until either player earns 21 points.
+
+## Part 0: Environment and Setup
 This may work locally with high-end GPU resources. Otherwise, you can use the Google Cloud platform and launch a Deep Learning VM:
 
 > Google Cloud Platform, offered by Google, is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products, such as Google Search, Gmail, file storage, and YouTube: https://cloud.google.com/
@@ -25,6 +30,8 @@ sudo apt-get install python-opengl
 ```
 - Run your commands utilizing either `nohup` or `screen`. These will enable you to exit the terminal with your script still running.
 
+Be aware that training this model will take several hours, even on high-end GPU servers! This is unavoidable.
+
 ## Part 1: Problem Representation
 For the Q learner, we must represent the game as a set of states, actions, and rewards. OpenAI Gym offers two versions of game environments: one which offers the state as the game display (image) and one which offers the state as the hardware RAM (array). I explained why the former is easier for the agent to learn from.
 
@@ -34,10 +41,17 @@ I described the purpose of the neural network in Q learning. Since neural networ
 
 I described how an action is chosen:
 
+```
+if random.random() > epsilon:
+    . . .
+else:
+    action = random.randrange(self.env.action_space.n)
+```
+<!-- 
 `if random.random() > epsilon:`  
 &nbsp;&nbsp;&nbsp;&nbsp;`. . .`  
 `else:`  
-&nbsp;&nbsp;&nbsp;&nbsp;`action = random.randrange(self.env.action_space.n)`
+&nbsp;&nbsp;&nbsp;&nbsp;`action = random.randrange(self.env.action_space.n)` -->
 
 Given a state, I wrote code to compute the Q value and choose an action to perform (see lines 50-55 in function `act` of **dqn.py**).
 
