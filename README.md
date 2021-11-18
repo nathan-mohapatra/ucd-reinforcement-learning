@@ -32,12 +32,12 @@ sudo apt-get install python-opengl
 Be aware that training this model will take several hours, even on high-end GPU servers! This is unavoidable.
 
 ## Part 1: Problem Representation
-Q-learning is the use of the Q-function of a policy to measure the expected sum of rewards, obtained from a given state, by taking an action and following the policy thereafter. For any finite Markov decision process, Q-learning finds an optimal policy by maximizing the expected value of the total reward (Q-value) over any and all successive states, starting from the current state. Since greater weight is given to more immediate rewards, future rewards are increasingly discounted.
+Q-learning is the use of the Q-function of a policy to measure the expected sum of rewards, obtained from a given state, by taking an action and following the policy thereafter. For any finite Markov decision process, Q-learning finds an optimal policy by maximizing the expected value of the total reward (i.e. Q-value) over any and all successive states, starting from the current state. Since greater weight is given to more immediate rewards, future rewards are increasingly discounted.
 
 To implement Q-learning, we must represent the game as a set of states, actions, and rewards. OpenAI Gym offers two versions of game environments: one which offers the state as the game display (image) and one which offers the state as the hardware RAM (array). I believe that the former would be easier for the agent to learn from, because the hardware RAM for an Atari 2600 was only 128 bytes, and it is questionable whether or not this is enough information to learn from.
 
-Neural networks learn a complex function mapping inputs to outputs. Thus, the purpose of the convolutional neural network in this deep Q-network is to incorporate function approximation algorithms (i.e. backpropagation); a neural network substitutes for the lookup table, or table of Q-values for for each action in each state, and uses each Q-function update as a training example. The convolutional neural network is trained with the game display, or the state, as input and six Q-functions, or the possible actions, as output.
-> The deep Q-network in the provided code is defined by `class QLearner(nn.Module)`.
+Neural networks learn a complex function mapping inputs to outputs. Thus, the purpose of the convolutional neural network in this deep Q-network is to incorporate function approximation algorithms (i.e. backpropagation); a neural network substitutes for the Q-table, or table of Q-values for each action in each state, and uses each Q-function update as a training example. The convolutional neural network is trained with the game display, or the state, as input and six Q-functions, or the possible actions, as output.  
+The deep Q-network in the provided code is defined by `class QLearner(nn.Module)`.
 
 The following code in `dqn.py` affects how an action is chosen:
 ```
@@ -51,10 +51,13 @@ There are two strategies for selecting an action to execute in the current state
 Given a state, I wrote code in `dqn.py` to compute the Q-value and choose an action to perform.
 
 ## Part 2: Making Q-Learner Learn
-I explained the objective function of deep Q-learning neural networks for one-state lookahead.
+The objective function of the deep Q-network for one-state lookahead is to iteratively reduce the discrepancy between Q-value estimates for adjacent states. In doing, so it uses the squared error loss function: <img src="https://render.githubusercontent.com/render/math?math=Loss_i(\Theta_i)=(y_i-Q(s,a,\Theta_i))^2">
+- <img src="https://render.githubusercontent.com/render/math?math=Theta_i"> - neural network weights for iteration *i*'
+- <img src="https://render.githubusercontent.com/render/math?math=y_i"> - target Q-value for iteration *i*
+- <img src="https://render.githubusercontent.com/render/math?math=Q(s,a,\Theta_i))"> - predicted Q-value for iteration *i*
+    - The Q-value is the reward received immediately upon applying action *a* to state *s*, plus the value (discounted by <img src="https://render.githubusercontent.com/render/math?math=gamme">) of following the optimal policy thereafter.
 
-Loss function (mean squared error):  
-<img src="https://render.githubusercontent.com/render/math?math=Loss_i(\Theta_i)=(y_i-Q(s,a,\Theta_i))^2">
+This loss function helps our model learn because, under certain assumptions, it converges to the optimal Q-function (and, unlike supervised learning, the targets are not provided and fixed beforehand).
 
 ## Part 3: Extend Deep Q-Learner
 The replay memory/buffer in deep Q networks is used to store many (state, action, reward, next state) entries. In typical Q learning, these entries are used sequentially to update the Q table. With experience replay, we instead store these entries and later use them to update our policy by randomly sampling from the buffer to get an entry and using that entry to update our policy. This is necessary as optimization is assuming independent and identically distributed samples. If we do not use the experience replay then the agent will see many similar samples as seqential samples in the game are very similar. This will encourage the model to converge to a local minimum.
