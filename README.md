@@ -54,6 +54,7 @@ Given a state, I wrote code in `dqn.py` to compute the Q-value and choose an act
 The objective function of the deep Q-network for one-state lookahead is to iteratively reduce the discrepancy between Q-value estimates for adjacent states. In doing, so it uses the squared error loss function:
 
 <img src="https://render.githubusercontent.com/render/math?math=Loss_i(\Theta_i)=(y_i-Q(s,a,\Theta_i))^2">
+
 - <img src="https://render.githubusercontent.com/render/math?math=\Theta_i"> - neural network weights for iteration *i*
 - <img src="https://render.githubusercontent.com/render/math?math=y_i"> - target Q-value for iteration *i*
 - <img src="https://render.githubusercontent.com/render/math?math=Q(s,a,\Theta_i))"> - predicted Q-value for iteration *i*
@@ -81,8 +82,8 @@ I trained the model by running `run_dqn_pong.py`. To achieve good performance, I
 
 `run_dqn_pong.py` recorded the loss and rewards in `losses` and `all_rewards`, respectively. I modified `run_dqn_pong.py` to save these to memory (in `losses.txt` and `all_rewards.txt`). Then, I used a Python script I wrote, `plot_graphs.py`, to use the data in `losses.txt` and `all_rewards.txt` to plot how the loss and reward changed during the training process:
 
-<!-- <img src="https://i.postimg.cc/zDcMRqc5/loss.png" width="768" height="384">
+<img src="https://i.postimg.cc/zDcMRqc5/loss.png" width="768" height="384">
 
-<img src="https://i.postimg.cc/nc9W4Nym/reward.png" width="768" height="384"> -->
+<img src="https://i.postimg.cc/nc9W4Nym/reward.png" width="768" height="384">
 
 These figures were also included in my report.
