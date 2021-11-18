@@ -81,8 +81,8 @@ I trained the model by running `run_dqn_pong.py`. To achieve good performance, I
 
 `run_dqn_pong.py` recorded the loss and rewards in `losses` and `all_rewards`, respectively. I modified `run_dqn_pong.py` to save these to memory (in `losses.txt` and `all_rewards.txt`). Then, I used a Python script I wrote, `plot_graphs.py`, to use the data in `losses.txt` and `all_rewards.txt` to plot how the loss and reward changed during the training process:
 
-<img src="https://i.postimg.cc/zDcMRqc5/loss.png" width="1024" height="512">
+<img src="https://i.postimg.cc/zDcMRqc5/loss.png" width="768" height="384">
 
-<img src="https://i.postimg.cc/nc9W4Nym/reward.png" width="1024" height="512">
+<img src="https://i.postimg.cc/nc9W4Nym/reward.png" width="768" height="384">
 
 These figures were also included in my report.
