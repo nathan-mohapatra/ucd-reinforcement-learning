@@ -60,9 +60,16 @@ The objective function of the deep Q-network for one-state lookahead is to itera
 This loss function helps our model learn because, under certain assumptions, it converges to the optimal Q-function (and, unlike supervised learning, the targets are not provided and fixed beforehand).
 
 ## Part 3: Extend Deep Q-Learner
-The replay memory/buffer in deep Q networks is used to store many (state, action, reward, next state) entries. In typical Q learning, these entries are used sequentially to update the Q table. With experience replay, we instead store these entries and later use them to update our policy by randomly sampling from the buffer to get an entry and using that entry to update our policy. This is necessary as optimization is assuming independent and identically distributed samples. If we do not use the experience replay then the agent will see many similar samples as seqential samples in the game are very similar. This will encourage the model to converge to a local minimum.
+The replay memory/buffer in deep Q-networks is used to store many (state, action, reward, next state) entries. In typical Q-learning, these entries are used sequentially to update the Q-table. With experience replay, we instead store these entries and later use them to update our policy by randomly sampling from the buffer to get an entry and using that entry to update our policy. This is necessary as optimization is assuming independent and identically-distributed samples. If we do not use the experience replay, then the agent will see many similar samples, as seqential samples in the game are very similar. This will encourage the model to converge to a local minimum.
 
-I implemened the "random sampling" function of replay memory/buffer. This samples a batch from the replay buffer (see line 90, function `sample` of **dqn.py**).
+I implemented the "random sampling" function of the replay memory/buffer in `dqn.py`:
+```
+def sample(self, batch_size):
+    iterables = random.sample(self.buffer, batch_size)
+    state, action, reward, next_state, done = zip(*iterables)
+    
+    return state, action, reward, next_state, done
+```
 
 ## Part 4: Learning to Play Pong
 I began with a partially trained network that was to be loaded for further training. Since it is good convention when training neural networks to save your model occasionally, I adjusted **run_dqn_pong.py** to be able to load in a model and occasionally save a model to disk.
