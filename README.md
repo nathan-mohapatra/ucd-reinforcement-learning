@@ -16,7 +16,6 @@ The deep Q-network is contained within `dqn.py`, and it is trained using `run_dq
 
 ## Part 0: Environment and Setup
 This may work locally with high-end GPU resources. Otherwise, you can use the Google Cloud platform and launch a Deep Learning VM:
-
 > Google Cloud Platform, offered by Google, is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products, such as Google Search, Gmail, file storage, and YouTube: https://cloud.google.com/
 
 If you are using Google Cloud Platform, here are some suggestions:
@@ -33,27 +32,23 @@ sudo apt-get install python-opengl
 Be aware that training this model will take several hours, even on high-end GPU servers! This is unavoidable.
 
 ## Part 1: Problem Representation
-For the Q learner, we must represent the game as a set of states, actions, and rewards. OpenAI Gym offers two versions of game environments: one which offers the state as the game display (image) and one which offers the state as the hardware RAM (array). I explained why the former is easier for the agent to learn from.
+Q-learning is the use of the Q-function of a policy to measure the expected sum of rewards, obtained from a given state, by taking an action and following the policy thereafter. For any finite Markov decision process, Q-learning finds an optimal policy by maximizing the expected value of the total reward (Q-value) over any and all successive states, starting from the current state. Since greater weight is given to more immediate rewards, future rewards are increasingly discounted.
 
-I described the purpose of the neural network in Q learning. Since neural networks learn a complicated function mapping their inputs to their outputs, I explained what these variables (inputs and outputs) represent.
+To implement Q-learning, we must represent the game as a set of states, actions, and rewards. OpenAI Gym offers two versions of game environments: one which offers the state as the game display (image) and one which offers the state as the hardware RAM (array). I believe that the former would be easier for the agent to learn from, because the hardware RAM for an Atari 2600 was only 128 bytes, and it is questionable whether or not this is enough information to learn from.
 
-> The neural network in the provided code is `class QLearner(nn.Module)`
+Neural networks learn a complex function mapping inputs to outputs. Thus, the purpose of the convolutional neural network in this deep Q-network is to incorporate function approximation algorithms (i.e. backpropagation); a neural network substitutes for the lookup table, or table of Q-values for for each action in each state, and uses each Q-function update as a training example. The convolutional neural network is trained with the game display, or the state, as input and six Q-functions, or the possible actions, as output.
+> The deep Q-network in the provided code is defined by `class QLearner(nn.Module)`.
 
-I described how an action is chosen:
-
+The following code in `dqn.py` affects how an action is chosen:
 ```
 if random.random() > epsilon:
     . . .
 else:
     action = random.randrange(self.env.action_space.n)
 ```
-<!-- 
-`if random.random() > epsilon:`  
-&nbsp;&nbsp;&nbsp;&nbsp;`. . .`  
-`else:`  
-&nbsp;&nbsp;&nbsp;&nbsp;`action = random.randrange(self.env.action_space.n)` -->
+There are two strategies for selecting an action to execute in the current state: exploration and exploitation. The agent either explores new paths to rewards by randomly selecting an action (with probability `epsilon`), or exploits what it has learned so far by selection the action corresponding to the largest Q-value (with probability 1 - `epsilon`). Therefore, how frequently either strategy is used is determined by the value of `epsilon`. Ideally, the value of `epsilon` decreases during training, because exploration is preferred at the beginning and exploitation is preferred at the end. The Q-learner only decides what action to perform when using the exploitation strategy.
 
-Given a state, I wrote code to compute the Q value and choose an action to perform (see lines 50-55 in function `act` of **dqn.py**).
+Given a state, I wrote code in `dqn.py` to compute the Q-value and choose an action to perform.
 
 ## Part 2: Making Q-Learner Learn
 I explained the objective function of deep Q-learning neural networks for one-state lookahead.
