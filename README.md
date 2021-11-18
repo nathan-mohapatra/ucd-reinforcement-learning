@@ -77,12 +77,12 @@ def sample(self, batch_size):
 I began with `model_pretrained.pth`, a partially-trained model that was to be loaded for further training. Since it is good convention when training neural networks to save your model occasionally (in case code crashes, servers are disrupted, and so on), I adjusted `run_dqn_pong.py` to be able to load in a model and occasionally save a model to disk.
 > There are built-in functions to do so in PyTorch, such as `torch.save(model.state_dict(), filename)`. Do not manually extract or load in the model weights. Use `.pth` files.
 
-I trained the model by running `run_dqn_pong.py`. To achieve good performance, I needed to train the model for approximately 500,000 more frames (which takes 3 to 6 hours on Google servers). While optimizing different values for hyperparameters such as `epsilon` and the size of the replay buffer were an option, I decided not to do so, as it was unnecessary.
+I trained the model by running `run_dqn_pong.py`. To achieve good performance, I needed to train the model for approximately 500,000 more frames (which takes 3 to 6 hours on Google servers). While optimizing different values for hyperparameters such as `epsilon` and the size of the replay buffer were an option, I decided not to do so, as it was unnecessary. My final model is saved in `model.pth`
 
 `run_dqn_pong.py` recorded the loss and rewards in `losses` and `all_rewards`, respectively. I modified `run_dqn_pong.py` to save these to memory (in `losses.txt` and `all_rewards.txt`). Then, I used a Python script I wrote, `plot_graphs.py`, to use the data in `losses.txt` and `all_rewards.txt` to plot how the loss and reward changed during the training process:
 
-[loss.png](https://postimg.cc/V5X4xPwH)
+[![loss.png](https://i.postimg.cc/zDcMRqc5/loss.png)](https://postimg.cc/V5X4xPwH)
 
-[reward.png](https://postimg.cc/ZCZjZsKY)
+[![reward.png](https://i.postimg.cc/nc9W4Nym/reward.png)](https://postimg.cc/ZCZjZsKY)
 
 These figures were also included in my report.
