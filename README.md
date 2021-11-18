@@ -80,6 +80,9 @@ I began with `model_pretrained.pth`, a partially-trained model that was to be lo
 I trained the model by running `run_dqn_pong.py`. To achieve good performance, I needed to train the model for approximately 500,000 more frames (which takes 3 to 6 hours on Google servers). While optimizing different values for hyperparameters such as `epsilon` and the size of the replay buffer were an option, I decided not to do so, as it was unnecessary.
 
 `run_dqn_pong.py` recorded the loss and rewards in `losses` and `all_rewards`, respectively. I modified `run_dqn_pong.py` to save these to memory (in `losses.txt` and `all_rewards.txt`). Then, I used a Python script I wrote, `plot_graphs.py`, to use the data in `losses.txt` and `all_rewards.txt` to plot how the loss and reward changed during the training process:
-[loss.png](https://postimg.cc/V5X4xPwH)  
-[reward.png](https://postimg.cc/ZCZjZsKY)  
+
+[loss.png](https://postimg.cc/V5X4xPwH)
+
+[reward.png](https://postimg.cc/ZCZjZsKY)
+
 These figures were also included in my report.
