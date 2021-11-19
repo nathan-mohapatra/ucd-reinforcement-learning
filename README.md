@@ -53,11 +53,11 @@ Given a state, I wrote code in `dqn.py` to compute the Q-value and choose an act
 ## Part 2: Making Q-Learner Learn
 The objective function of the deep Q-network for one-state lookahead is to iteratively reduce the discrepancy between Q-value estimates for adjacent states. In doing so, it uses the squared error loss function:
 
-<img src="https://render.githubusercontent.com/render/math?math=Loss_i(\Theta_i)=(y_i-Q(s,a;\Theta_i))^2">
+<img src="https://render.githubusercontent.com/render/math?math=Loss_i(\Theta_i)=(y_i-Q(s,a,\Theta_i))^2">
 
 - <img src="https://render.githubusercontent.com/render/math?math=\Theta_i"> - neural network weights for iteration *i*
 - <img src="https://render.githubusercontent.com/render/math?math=y_i"> - target Q-value for iteration *i*
-- <img src="https://render.githubusercontent.com/render/math?math=Q(s,a;\Theta_i))"> - predicted Q-value for iteration *i*
+- <img src="https://render.githubusercontent.com/render/math?math=Q(s,a,\Theta_i))"> - predicted Q-value for iteration *i*
     - The Q-value is the reward received immediately upon applying action *a* to state *s*, plus the value (discounted by <img src="https://render.githubusercontent.com/render/math?math=\gamma">) of following the optimal policy thereafter.
 
 This loss function helps our model learn because, under certain assumptions, it converges to the optimal Q-function (and, unlike supervised learning, the targets are not provided and fixed beforehand).
