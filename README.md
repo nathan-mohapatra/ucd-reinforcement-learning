@@ -46,18 +46,18 @@ if random.random() > epsilon:
 else:
     action = random.randrange(self.env.action_space.n)
 ```
-There are two strategies for selecting an action to execute in the current state: exploration and exploitation. The agent either explores new paths to rewards by randomly selecting an action (with probability `epsilon`), or exploits what it has learned so far by selection the action corresponding to the largest Q-value (with probability 1 - `epsilon`). Therefore, how frequently either strategy is used is determined by the value of `epsilon`. Ideally, the value of `epsilon` decreases during training, because exploration is preferred at the beginning and exploitation is preferred at the end. The Q-learner only decides what action to perform when using the exploitation strategy.
+There are two strategies for selecting an action to execute in the current state: exploration and exploitation. The agent either explores new paths to rewards by randomly selecting an action (with probability `epsilon`), or exploits what it has learned so far by selecting the action corresponding to the largest Q-value (with probability 1 - `epsilon`). Therefore, how frequently either strategy is used is determined by the value of `epsilon`. Ideally, the value of `epsilon` decreases during training, because exploration is preferred at the beginning and exploitation is preferred at the end. The Q-learner only decides what action to perform when using the exploitation strategy.
 
 Given a state, I wrote code in `dqn.py` to compute the Q-value and choose an action to perform.
 
 ## Part 2: Making Q-Learner Learn
-The objective function of the deep Q-network for one-state lookahead is to iteratively reduce the discrepancy between Q-value estimates for adjacent states. In doing, so it uses the squared error loss function:
+The objective function of the deep Q-network for one-state lookahead is to iteratively reduce the discrepancy between Q-value estimates for adjacent states. In doing so, it uses the squared error loss function:
 
-<img src="https://render.githubusercontent.com/render/math?math=Loss_i(\Theta_i)=(y_i-Q(s,a,\Theta_i))^2">
+<img src="https://render.githubusercontent.com/render/math?math=Loss_i(\Theta_i)=(y_i-Q(s,a;\Theta_i))^2">
 
 - <img src="https://render.githubusercontent.com/render/math?math=\Theta_i"> - neural network weights for iteration *i*
 - <img src="https://render.githubusercontent.com/render/math?math=y_i"> - target Q-value for iteration *i*
-- <img src="https://render.githubusercontent.com/render/math?math=Q(s,a,\Theta_i))"> - predicted Q-value for iteration *i*
+- <img src="https://render.githubusercontent.com/render/math?math=Q(s,a;\Theta_i))"> - predicted Q-value for iteration *i*
     - The Q-value is the reward received immediately upon applying action *a* to state *s*, plus the value (discounted by <img src="https://render.githubusercontent.com/render/math?math=\gamma">) of following the optimal policy thereafter.
 
 This loss function helps our model learn because, under certain assumptions, it converges to the optimal Q-function (and, unlike supervised learning, the targets are not provided and fixed beforehand).
@@ -80,7 +80,7 @@ I began with `model_pretrained.pth`, a partially-trained model that was to be lo
 
 I trained the model by running `run_dqn_pong.py`. To achieve good performance, I needed to train the model for approximately 500,000 more frames (which takes 3 to 6 hours on Google servers). While optimizing different values for hyperparameters such as `epsilon` and the size of the replay buffer were an option, I decided not to do so, as it was unnecessary. My final model is saved in `model.pth`
 
-`run_dqn_pong.py` recorded the loss and rewards in `losses` and `all_rewards`, respectively. I modified `run_dqn_pong.py` to save these to memory (in `losses.txt` and `all_rewards.txt`). Then, I used a Python script I wrote, `plot_graphs.py`, to use the data in `losses.txt` and `all_rewards.txt` to plot how the loss and reward changed during the training process:
+`run_dqn_pong.py` recorded the loss and rewards in `losses` and `all_rewards`, respectively. I modified `run_dqn_pong.py` to save these to memory (in `losses.txt` and `all_rewards.txt`). Then, I used a Python script, `plot_graphs.py`, to use the data in `losses.txt` and `all_rewards.txt` to plot how the loss and reward changed during the training process:
 
 <img src="https://i.postimg.cc/zDcMRqc5/loss.png" width="768" height="384">
 
