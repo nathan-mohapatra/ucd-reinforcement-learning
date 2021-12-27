@@ -1,5 +1,5 @@
 # UCD Reinforcement Learning
-For this assignment, I used TensorFlow to train a convolutional neural network to learn to play Pong without human knowledge of the game. I used OpenAI Gym, which offered the game state as the game display (image), to run and interact with the Atari game. I also represented the game as a set of states, actions, and rewards to implement the Q-learning algorithm, and plotted loss and reward change during the training process.
+For this assignment, I used PyTorch to train a convolutional neural network to learn to play Pong without human knowledge of the game. I used OpenAI Gym, which offered the game state as the game display (image), to run and interact with the Atari game. I also represented the game as a set of states, actions, and rewards to implement the Q-learning algorithm, and plotted loss and reward change during the training process.
 
 `instructions.pdf` is the set of instructions with which I completed the assignment.  
 `report3.pdf` is a written report of this assignment.
@@ -19,8 +19,8 @@ This may work locally with high-end GPU resources. Otherwise, you can use the Go
 > Google Cloud Platform, offered by Google, is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products, such as Google Search, Gmail, file storage, and YouTube: https://cloud.google.com/
 
 If you are using Google Cloud Platform, here are some suggestions:
-- When launching the Deep Learning VM, you can choose between TensorFlow and PyTorch frameworks. TensorFlow is preferred, because ApenAI Gym is installed by default.
-- After launching the TensorFlow virtual machine, open its command line and do the following installation:  
+- When launching the Deep Learning VM, you can choose between TensorFlow and PyTorch frameworks. With TensorFlow, OenAI Gym is installed by default (but I chose PyTorch).
+- If you launch a PyTorch virtual machine, open its command line and do the following installation:  
 ```
 sudo apt install cmake libz-dev
 sudo pip install torch torchvision
