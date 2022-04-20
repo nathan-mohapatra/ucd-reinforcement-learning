@@ -19,7 +19,7 @@ This may work locally with high-end GPU resources. Otherwise, you can use the Go
 > Google Cloud Platform, offered by Google, is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products, such as Google Search, Gmail, file storage, and YouTube: https://cloud.google.com/
 
 If you are using Google Cloud Platform, here are some suggestions:
-- When launching the Deep Learning VM, you can choose between TensorFlow and PyTorch frameworks. With TensorFlow, OenAI Gym is installed by default (but I chose PyTorch).
+- When launching the Deep Learning VM, you can choose between TensorFlow and PyTorch frameworks. With TensorFlow, OpenAI Gym is installed by default (but I chose PyTorch).
 - If you launch a PyTorch virtual machine, open its command line and do the following installation:  
 ```
 sudo apt install cmake libz-dev
